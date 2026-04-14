@@ -1,0 +1,126 @@
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: users
+// Document ID: {userId}
+// Fields:
+//   - uid: string (required)
+//   - email: string (required, PII)
+//   - displayName: string
+//   - role: string (customer, driver)
+//   - isFemale: boolean
+//   - emergencyContact: map { name: string, phone: string }
+//   - rating: number
+//   - ratingCount: number
+//
+// Collection: bookings
+// Document ID: {bookingId}
+// Fields:
+//   - id: string
+//   - customerId: string (required)
+//   - driverId: string
+//   - type: string (full, shuttle)
+//   - status: string (pending, accepted, ongoing, completed, cancelled)
+//   - origin: string
+//   - destination: string
+//   - timestamp: timestamp
+//   - isFemaleOnly: boolean
+//   - groupMembers: list of string (userIds)
+//   - price: number
+//   - maxSeats: number
+//   - occupiedSeats: number
+//
+// Collection: locations
+// Document ID: {userId}
+// Fields:
+//   - userId: string
+//   - latitude: number
+//   - longitude: number
+//   - timestamp: timestamp
+//
+// ===============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.customerId;
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'role']) &&
+             data.uid == request.auth.uid &&
+             isValidEmail(data.email) &&
+             data.role in ['customer', 'driver'];
+    }
+
+    function isValidBooking(data) {
+      return data.keys().hasAll(['customerId', 'type', 'status', 'origin', 'destination']) &&
+             data.customerId is string &&
+             data.type in ['full', 'shuttle'] &&
+             data.status in ['pending', 'accepted', 'ongoing', 'completed', 'cancelled'];
+    }
+
+    function isValidLocation(data) {
+      return data.keys().hasAll(['userId', 'latitude', 'longitude', 'timestamp']) &&
+             data.userId == request.auth.uid &&
+             data.latitude is number &&
+             data.longitude is number;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && isValidUser(request.resource.data) && 
+                    request.resource.data.role == resource.data.role;
+    }
+
+    match /bookings/{bookingId} {
+      // Customers can see their own bookings. Drivers can see all pending bookings or bookings they accepted.
+      allow read: if isAuthenticated() && (
+        request.auth.uid == resource.data.customerId || 
+        request.auth.uid == resource.data.driverId ||
+        (resource.data.status == 'pending' && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'driver') ||
+        (resource.data.groupMembers != null && request.auth.uid in resource.data.groupMembers)
+      );
+      
+      allow create: if isAuthenticated() && isValidBooking(request.resource.data) && 
+                    request.resource.data.customerId == request.auth.uid;
+      
+      allow update: if isAuthenticated() && (
+        // Customer can cancel or update their own booking
+        (request.auth.uid == resource.data.customerId && isValidBooking(request.resource.data)) ||
+        // Driver can accept or update status
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'driver' && 
+         request.resource.data.diff(resource.data).affectedKeys().hasAny(['status', 'driverId']))
+      );
+    }
+
+    match /locations/{userId} {
+      allow read: if isAuthenticated(); // Simplified for now, in a real app we'd scope this more
+      allow write: if isOwner(userId) && isValidLocation(request.resource.data);
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "GO Goa",
+  "description": "A ride-sharing and shuttle app for Goa with group bookings, female-only options, and real-time GPS safety tracking.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

@@ -1,0 +1,73 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile for customers and drivers",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "driver"] },
+        "isFemale": { "type": "boolean" },
+        "emergencyContact": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "phone": { "type": "string" }
+          }
+        },
+        "rating": { "type": "number" },
+        "ratingCount": { "type": "number" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Ride booking details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerId": { "type": "string" },
+        "driverId": { "type": "string" },
+        "type": { "type": "string", "enum": ["full", "shuttle"] },
+        "status": { "type": "string", "enum": ["pending", "accepted", "ongoing", "completed", "cancelled"] },
+        "origin": { "type": "string" },
+        "destination": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "isFemaleOnly": { "type": "boolean" },
+        "groupMembers": { "type": "array", "items": { "type": "string" } },
+        "price": { "type": "number" },
+        "maxSeats": { "type": "number" },
+        "occupiedSeats": { "type": "number" }
+      },
+      "required": ["customerId", "type", "status", "origin", "destination"]
+    },
+    "Location": {
+      "title": "Location",
+      "description": "Real-time GPS location of a user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "latitude", "longitude", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Ride bookings"
+    },
+    "/locations/{userId}": {
+      "schema": "Location",
+      "description": "Real-time user locations"
+    }
+  }
+}
