@@ -51,8 +51,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.77, 15.49],
     type: 'famous',
     category: 'fort',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Aguada_Fort_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/aguada/400/300',
+    vrUrl: 'https://pannellum.org/images/banteay-srei.jpg', // Using reliable CORS-enabled sample
+    thumbnail: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&q=80',
     bestFor: 'History & Panoramic Views'
   },
   {
@@ -62,8 +62,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.73, 15.60],
     type: 'famous',
     category: 'fort',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Aguada_Fort_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/chapora/400/300',
+    vrUrl: 'https://pannellum.org/images/banteay-srei.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1582650625119-3a31f8fa2699?w=800&q=80',
     bestFor: 'Sunset & Vagator Views'
   },
   {
@@ -73,8 +73,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.81, 15.50],
     type: 'famous',
     category: 'fort',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Aguada_Fort_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/reismagos/400/300',
+    vrUrl: 'https://pannellum.org/images/banteay-srei.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1590393957416-64669865682c?w=800&q=80',
     bestFor: 'Cultural Education'
   },
   {
@@ -84,8 +84,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.92, 15.04],
     type: 'hidden',
     category: 'fort',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/23/Cabo_de_Rama_Fort_Sea_View_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/fort/400/300',
+    vrUrl: 'https://pannellum.org/images/cerro-toco-0.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1544085311-11a028465b03?w=800&q=80',
     bestFor: 'Secluded Romance'
   },
   {
@@ -95,8 +95,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.68, 15.72],
     type: 'hidden',
     category: 'fort',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Aguada_Fort_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/terekhol/400/300',
+    vrUrl: 'https://pannellum.org/images/banteay-srei.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&q=80',
     bestFor: 'Boutique Heritage Stay'
   },
   {
@@ -106,8 +106,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.89, 15.60],
     type: 'hidden',
     category: 'fort',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Aguada_Fort_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/corjuem/400/300',
+    vrUrl: 'https://pannellum.org/images/banteay-srei.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=800&q=80',
     bestFor: 'Offbeat Exploration'
   },
 
@@ -119,8 +119,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.91, 15.50],
     type: 'famous',
     category: 'church',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Basilica_of_Bom_Jesus_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/church/400/300',
+    vrUrl: 'https://pannellum.org/images/alma.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80',
     bestFor: 'Spiritual & Architecture'
   },
   {
@@ -130,8 +130,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.91, 15.51],
     type: 'famous',
     category: 'church',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Basilica_of_Bom_Jesus_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/secathedral/400/300',
+    vrUrl: 'https://pannellum.org/images/alma.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1590050801219-490c44403c90?w=800&q=80',
     bestFor: 'Architectural Marvel'
   },
   {
@@ -141,8 +141,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.83, 15.50],
     type: 'famous',
     category: 'church',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Basilica_of_Bom_Jesus_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/panaji/400/300',
+    vrUrl: 'https://pannellum.org/images/alma.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&q=80',
     bestFor: 'City Landmark'
   },
   {
@@ -152,8 +152,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.77, 15.55],
     type: 'famous',
     category: 'church',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Basilica_of_Bom_Jesus_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/saligao/400/300',
+    vrUrl: 'https://pannellum.org/images/alma.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=800&q=80',
     bestFor: 'Night Photography'
   },
   {
@@ -163,8 +163,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.88, 15.36],
     type: 'hidden',
     category: 'church',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Basilica_of_Bom_Jesus_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/threekings/400/300',
+    vrUrl: 'https://pannellum.org/images/alma.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1590050801219-490c44403c90?w=800&q=80',
     bestFor: 'Haunted Legends & Views'
   },
   {
@@ -174,8 +174,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.91, 15.47],
     type: 'hidden',
     category: 'church',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Basilica_of_Bom_Jesus_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/stanne/400/300',
+    vrUrl: 'https://pannellum.org/images/alma.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1590050801219-490c44403c90?w=800&q=80',
     bestFor: 'Indian Baroque Art'
   },
 
@@ -187,8 +187,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.83, 15.49],
     type: 'famous',
     category: 'nightlife',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Baga_Beach_Goa_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/joseph/400/300',
+    vrUrl: 'https://pannellum.org/images/jfk.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80',
     bestFor: 'Craft Feni & Local Vibes'
   },
   {
@@ -198,8 +198,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.76, 15.61],
     type: 'famous',
     category: 'nightlife',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Baga_Beach_Goa_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/thalassa/400/300',
+    vrUrl: 'https://pannellum.org/images/jfk.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80',
     bestFor: 'Sunsets & Fire Shows'
   },
   {
@@ -209,8 +209,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.78, 15.59],
     type: 'famous',
     category: 'nightlife',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Baga_Beach_Goa_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/soro/400/300',
+    vrUrl: 'https://pannellum.org/images/jfk.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80',
     bestFor: 'Live Music & Dancing'
   },
   {
@@ -220,8 +220,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.79, 15.51],
     type: 'famous',
     category: 'nightlife',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Baga_Beach_Goa_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/lpk/400/300',
+    vrUrl: 'https://pannellum.org/images/jfk.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80',
     bestFor: 'Late-night Dancing'
   },
   {
@@ -231,8 +231,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.78, 15.58],
     type: 'famous',
     category: 'nightlife',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Baga_Beach_Goa_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/gunpowder/400/300',
+    vrUrl: 'https://pannellum.org/images/jfk.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80',
     bestFor: 'South Indian Cocktails'
   },
   {
@@ -242,8 +242,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.79, 15.52],
     type: 'famous',
     category: 'nightlife',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Baga_Beach_Goa_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/lazygoose/400/300',
+    vrUrl: 'https://pannellum.org/images/jfk.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80',
     bestFor: 'Riverside Sunset Drinks'
   },
   {
@@ -253,8 +253,8 @@ const LOCATIONS: Location[] = [
     coordinates: [73.73, 15.59],
     type: 'famous',
     category: 'nightlife',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Baga_Beach_Goa_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/antares/400/300',
+    vrUrl: 'https://pannellum.org/images/jfk.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80',
     bestFor: 'Beachfront Dining'
   },
 
@@ -266,8 +266,8 @@ const LOCATIONS: Location[] = [
     coordinates: [74.31, 15.31],
     type: 'famous',
     category: 'nature',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b5/Dudhsagar_Falls_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/waterfall/400/300',
+    vrUrl: 'https://pannellum.org/images/cerro-toco-0.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1544085311-11a028465b03?w=800&q=80',
     bestFor: 'Nature & Trekking'
   },
   {
@@ -277,8 +277,8 @@ const LOCATIONS: Location[] = [
     coordinates: [74.21, 15.08],
     type: 'hidden',
     category: 'nature',
-    vrUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/f0/Netravali_Wildlife_Sanctuary_Panorama.jpg',
-    thumbnail: 'https://picsum.photos/seed/lake/400/300',
+    vrUrl: 'https://pannellum.org/images/cerro-toco-0.jpg',
+    thumbnail: 'https://images.unsplash.com/photo-1540206351-d6465b3ac5c1?w=800&q=80',
     bestFor: 'Natural Phenomena'
   }
 ];
@@ -286,9 +286,12 @@ const LOCATIONS: Location[] = [
 export const Explorer = () => {
   const [selectedLoc, setSelectedLoc] = useState<Location | null>(null);
   const [showVR, setShowVR] = useState(false);
+  const [showAR, setShowAR] = useState(false);
+  const [vrLoading, setVrLoading] = useState(false);
   const [filter, setFilter] = useState<'all' | 'fort' | 'church' | 'nightlife' | 'nature'>('all');
   const panoramaRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const filteredLocations = filter === 'all' 
     ? LOCATIONS 
@@ -305,7 +308,31 @@ export const Explorer = () => {
   };
 
   useEffect(() => {
+    if (showAR) {
+      const startCamera = async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+          }
+        } catch (err) {
+          console.error("Error accessing camera:", err);
+          toast.error("Camera access denied or not available. AR mode requires a camera.");
+          setShowAR(false);
+        }
+      };
+      startCamera();
+    } else {
+      if (videoRef.current && videoRef.current.srcObject) {
+         const stream = videoRef.current.srcObject as MediaStream;
+         stream.getTracks().forEach(track => track.stop());
+      }
+    }
+  }, [showAR]);
+
+  useEffect(() => {
     if (showVR && selectedLoc) {
+      setVrLoading(true);
       const loadPannellum = () => {
         if (window.pannellum && panoramaRef.current) {
           try {
@@ -325,24 +352,37 @@ export const Explorer = () => {
                 haov: 360,
                 crossOrigin: 'anonymous',
                 showZoomCtrl: true,
-                showFullscreenCtrl: true
+                showFullscreenCtrl: true,
+                compass: true
               });
-            }, 100);
+
+              viewerRef.current.on('load', () => {
+                setVrLoading(false);
+                console.log("Pannellum loaded successfully");
+              });
+
+              viewerRef.current.on('error', (err: any) => {
+                setVrLoading(false);
+                console.error("Pannellum error event:", err);
+                toast.error("Failed to load 360 image. CORS or connection issue.");
+              });
+            }, 200);
           } catch (e) {
-            console.error("Pannellum init error:", e);
-            toast.error("VR Viewer failed to start. Try opening in a new tab.");
+            console.error("Pannellum catch error:", e);
+            setVrLoading(false);
+            toast.error("VR Viewer failed to start.");
           }
         }
       };
 
       if (!window.pannellum) {
         const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js';
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js';
         script.async = true;
         
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.css';
         
         document.head.appendChild(link);
         document.body.appendChild(script);
@@ -368,9 +408,16 @@ export const Explorer = () => {
     }
   };
 
+  const openDirections = () => {
+    if (selectedLoc) {
+      const [lng, lat] = selectedLoc.coordinates;
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`, '_blank');
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-sand dark:bg-background pt-24 pb-12 px-4">
-      <header className="max-w-7xl mx-auto mb-12 text-center">
+    <div className="bg-sand dark:bg-background pt-24 pb-24 px-4 overflow-x-hidden min-h-[calc(100vh-80px)] flex flex-col">
+      <header className="max-w-7xl mx-auto mb-12 text-center w-full">
         <Badge className="bg-palm/10 text-palm border-none px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-4">
           Interactive Goa Guide
         </Badge>
@@ -534,7 +581,7 @@ export const Explorer = () => {
                       </Button>
                       <Button 
                         variant="outline"
-                        onClick={() => toast.info("AR Mode: Point your camera at a flat surface (Simulated)")}
+                        onClick={() => setShowAR(true)}
                         className="border-2 border-palm/20 text-palm hover:bg-palm/5 font-black rounded-2xl h-12 gap-2"
                       >
                         <Box className="w-4 h-4" />
@@ -543,6 +590,7 @@ export const Explorer = () => {
                     </div>
                     <Button 
                       variant="ghost" 
+                      onClick={openDirections}
                       className="w-full text-ocean font-bold gap-2 hover:bg-ocean/5"
                     >
                       <MapPin className="w-4 h-4" />
@@ -570,16 +618,86 @@ export const Explorer = () => {
                 <Star className="w-6 h-6 text-sun fill-sun" />
               </div>
               <div>
-                <h4 className="font-black text-lg">Travel Tip</h4>
-                <p className="text-xs text-white/70 font-bold uppercase tracking-widest">Local Advice</p>
+                <h4 className="font-black text-lg">Travel Kit</h4>
+                <p className="text-xs text-white/70 font-bold uppercase tracking-widest">Essential Tips</p>
               </div>
             </div>
             <p className="text-sm font-medium leading-relaxed opacity-90">
-              "Hidden gems like Netravali are best visited early in the morning. Use our Shuttle Social to find travel buddies for these remote locations!"
+              "Don't forget your sunblock! Hidden gems like Netravali are best visited early in the morning. Use our Shuttle Social to find travel buddies!"
             </p>
           </Card>
         </div>
       </div>
+
+      {/* AR Vision Modal */}
+      <AnimatePresence>
+        {showAR && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] bg-black flex flex-col"
+          >
+             <div className="absolute top-6 left-6 right-6 z-20 flex justify-between items-start pointer-events-none">
+              <div className="bg-black/50 backdrop-blur-md p-4 rounded-2xl pointer-events-auto">
+                <div className="flex items-center gap-2 mb-1">
+                  <Box className="w-5 h-5 text-palm" />
+                  <span className="text-white font-black tracking-tighter uppercase text-sm">AR VISION ACTIVE</span>
+                </div>
+                <h2 className="text-white font-bold text-xl">{selectedLoc?.name}</h2>
+              </div>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => setShowAR(false)}
+                className="bg-black/50 backdrop-blur-md text-white hover:bg-white/10 rounded-full h-12 w-12 pointer-events-auto"
+              >
+                <X className="w-6 h-6" />
+              </Button>
+            </div>
+
+            <video 
+              ref={videoRef} 
+              autoPlay 
+              playsInline 
+              className="w-full h-full object-cover grayscale opacity-60"
+            />
+
+            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+              <div className="w-64 h-64 border-2 border-white/20 rounded-full animate-pulse flex items-center justify-center">
+                <div className="w-1 h-16 bg-white/40 absolute" />
+                <div className="w-16 h-1 bg-white/40 absolute" />
+              </div>
+              
+              {/* Simulated AR Points */}
+              <motion.div 
+                animate={{ 
+                  x: [0, 20, -20, 0],
+                  y: [0, -20, 20, 0] 
+                }}
+                transition={{ duration: 5, repeat: Infinity }}
+                className="absolute bg-palm/90 backdrop-blur-md p-3 rounded-xl border border-white/20 shadow-2xl flex items-center gap-3"
+              >
+                <div className="bg-white/20 p-2 rounded-lg">
+                  <Info className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <p className="text-white text-[10px] font-black uppercase tracking-widest">{selectedLoc?.category}</p>
+                  <p className="text-white font-bold text-sm">1.2 KM AWAY</p>
+                </div>
+              </motion.div>
+            </div>
+
+            <div className="absolute bottom-10 left-0 right-0 p-6 flex flex-col items-center gap-4 pointer-events-none">
+              <div className="bg-black/50 backdrop-blur-md p-6 rounded-[32px] max-w-md text-center pointer-events-auto border border-white/10">
+                <p className="text-white/80 text-sm font-medium leading-relaxed italic">
+                  "Goa's culture is deeply rooted in its landscape. This {selectedLoc?.category} represents centuries of heritage."
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* VR Modal */}
       <AnimatePresence>
@@ -590,7 +708,7 @@ export const Explorer = () => {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] bg-black/95 flex flex-col"
           >
-            <div className="p-4 flex justify-between items-center bg-black/50 backdrop-blur-md">
+            <div className="p-4 flex justify-between items-center bg-black/50 backdrop-blur-md relative z-20">
               <div className="flex items-center gap-3">
                 <div className="bg-palm p-2 rounded-xl">
                   <Eye className="text-white w-5 h-5" />
@@ -609,7 +727,15 @@ export const Explorer = () => {
                 <X className="w-6 h-6" />
               </Button>
             </div>
-            <div ref={panoramaRef} className="flex-1 w-full" />
+            <div className="flex-1 w-full relative">
+              {vrLoading && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 z-10">
+                  <div className="w-12 h-12 border-4 border-palm border-t-transparent rounded-full animate-spin mb-4" />
+                  <p className="text-white font-bold animate-pulse uppercase tracking-widest text-xs">Loading Panorama...</p>
+                </div>
+              )}
+              <div ref={panoramaRef} className="w-full h-full" />
+            </div>
             <div className="p-6 bg-black/50 backdrop-blur-md text-center flex flex-col md:flex-row items-center justify-center gap-4">
               <p className="text-white/80 text-sm font-medium max-w-2xl">
                 Drag to look around. Use your mouse wheel or pinch to zoom. 
