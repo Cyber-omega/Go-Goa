@@ -56,12 +56,12 @@ export const Login = () => {
       >
         <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] overflow-hidden bg-white">
           <CardHeader className="text-center space-y-4">
-            <div className="mx-auto bg-palm w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-palm/20">
-              <Car className="text-white w-10 h-10" />
+            <div className="mx-auto w-24 h-24 flex items-center justify-center">
+              <img src="/logo.svg" alt="GO Goa Logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <CardTitle className="text-4xl font-black text-palm tracking-tighter">GO GOA</CardTitle>
-              <CardDescription className="text-ink/60 font-medium mt-2">Join the most social ride network in Goa</CardDescription>
+              <CardTitle className="text-4xl font-black text-palm tracking-tighter uppercase">GO GOA</CardTitle>
+              <CardDescription className="text-ink/60 font-medium mt-2">Smart Travel for the Susegad Soul</CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-8">

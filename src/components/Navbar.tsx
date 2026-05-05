@@ -26,10 +26,10 @@ export const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-card/80 backdrop-blur-md border-b border-gray-100 dark:border-border px-4 py-3">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <div className="bg-palm p-2 rounded-xl">
-            <Car className="text-white w-6 h-6" />
+          <div className="bg-transparent p-0">
+            <img src="/logo.svg" alt="GO Goa Logo" className="w-10 h-10 object-contain" />
           </div>
-          <span className="text-2xl font-black tracking-tighter text-palm font-heading">GO Goa</span>
+          <span className="text-2xl font-black tracking-tighter text-palm font-heading uppercase">GO Goa</span>
         </Link>
 
         <div className="flex items-center gap-4">
@@ -44,13 +44,11 @@ export const Navbar = () => {
                 Dashboard
               </Link>
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                    <Avatar>
-                      <AvatarImage src={user.photoURL || ''} />
-                      <AvatarFallback>{user.displayName?.charAt(0) || 'U'}</AvatarFallback>
-                    </Avatar>
-                  </Button>
+                <DropdownMenuTrigger render={<Button variant="ghost" className="relative h-10 w-10 rounded-full" />}>
+                  <Avatar>
+                    <AvatarImage src={user.photoURL || ''} />
+                    <AvatarFallback>{user.displayName?.charAt(0) || 'U'}</AvatarFallback>
+                  </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuItem onClick={() => navigate('/profile')}>
