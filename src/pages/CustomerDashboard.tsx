@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Users, Shield, Navigation, Phone, Heart, Car } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
+import { EnvironmentalWidgets } from '../components/EnvironmentalWidgets';
 
 export const CustomerDashboard = () => {
   const { profile, user } = useAuth();
@@ -48,28 +49,13 @@ export const CustomerDashboard = () => {
           async (position) => {
             const { latitude, longitude } = position.coords;
             const locRef = doc(db, 'locations', user.uid);
-            await updateDoc(locRef, {
+            const { setDoc } = await import('firebase/firestore');
+            await setDoc(locRef, {
+              userId: user.uid,
               latitude,
               longitude,
               timestamp: serverTimestamp()
-            }).catch(async () => {
-              // If doc doesn't exist, set it
-              await updateDoc(locRef, {
-                userId: user.uid,
-                latitude,
-                longitude,
-                timestamp: serverTimestamp()
-              }).catch(async () => {
-                // Actually use setDoc if update fails
-                const { setDoc } = await import('firebase/firestore');
-                await setDoc(locRef, {
-                  userId: user.uid,
-                  latitude,
-                  longitude,
-                  timestamp: serverTimestamp()
-                });
-              });
-            });
+            }, { merge: true });
           },
           (error) => console.error("Geolocation error:", error),
           { enableHighAccuracy: true }
@@ -115,45 +101,50 @@ export const CustomerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-sand pt-24 pb-12 px-4">
-      <header className="max-w-4xl mx-auto space-y-2 mb-8">
-        <span className="text-[11px] uppercase tracking-[0.2em] text-ocean font-bold">Customer Portal</span>
-        <h1 className="text-4xl font-black text-palm">Hello, {profile?.displayName}!</h1>
-        <p className="text-ink/60 font-medium">Where are you heading in Goa today?</p>
+    <div className="min-h-screen bg-sand pt-24 pb-12 px-4 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-ocean/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[40%] h-[40%] bg-sun/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <header className="max-w-4xl mx-auto space-y-2 mb-10 relative z-10">
+        <span className="text-[10px] uppercase tracking-[0.3em] text-ocean font-black">Customer Portal</span>
+        <h1 className="text-5xl font-black text-ink tracking-tighter">Hello, {profile?.displayName}!</h1>
+        <p className="text-ink/60 font-medium text-lg italic">Explore Goa's magic today...</p>
       </header>
 
-      <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6">
+      <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 relative z-10">
         {/* Booking Form */}
-        <Card className="md:col-span-2 border-none shadow-2xl shadow-palm/5 rounded-[32px] bg-white overflow-hidden">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-palm font-heading text-2xl">
-              <Navigation className="text-palm w-5 h-5" />
+        <Card className="md:col-span-2 border-none shadow-2xl shadow-ink/5 rounded-[40px] bg-card/80 backdrop-blur-xl overflow-hidden">
+          <CardHeader className="pt-8 px-8">
+            <CardTitle className="flex items-center gap-3 text-ink font-heading text-3xl font-black tracking-tight">
+              <div className="bg-ocean/10 p-2 rounded-xl">
+                <Navigation className="text-ocean w-6 h-6" />
+              </div>
               Book a Ride
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
+          <CardContent className="space-y-8 px-8 pb-10">
+            <div className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="origin">Pickup Location</Label>
+                <Label htmlFor="origin" className="text-xs font-black uppercase tracking-widest text-ink/40 ml-1">Pickup Location</Label>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-3 text-gray-400 w-4 h-4" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-ocean w-5 h-5" />
                   <Input
                     id="origin"
                     placeholder="e.g. Panjim Church"
-                    className="pl-10 h-11"
+                    className="pl-12 h-14 rounded-2xl border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 focus:bg-card transition-all text-base font-medium"
                     value={origin}
                     onChange={(e) => setOrigin(e.target.value)}
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="destination">Destination</Label>
+                <Label htmlFor="destination" className="text-xs font-black uppercase tracking-widest text-ink/40 ml-1">Destination</Label>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-3 text-gray-400 w-4 h-4" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-sun w-5 h-5" />
                   <Input
                     id="destination"
                     placeholder="e.g. Calangute Beach"
-                    className="pl-10 h-11"
+                    className="pl-12 h-14 rounded-2xl border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 focus:bg-card transition-all text-base font-medium"
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
                   />
@@ -162,12 +153,14 @@ export const CustomerDashboard = () => {
             </div>
 
             {profile?.isFemale && (
-              <div className="flex items-center justify-between p-4 bg-pink-50 rounded-xl border border-pink-100">
-                <div className="flex items-center gap-3">
-                  <Shield className="text-pink-500 w-5 h-5" />
+              <div className="flex items-center justify-between p-5 bg-earth/5 rounded-[24px] border border-earth/10">
+                <div className="flex items-center gap-4">
+                  <div className="bg-earth/10 p-2 rounded-xl">
+                    <Shield className="text-earth w-6 h-6" />
+                  </div>
                   <div>
-                    <p className="font-semibold text-pink-900">Female Only Option</p>
-                    <p className="text-xs text-pink-700">Only female drivers & passengers</p>
+                    <p className="font-black text-ink text-lg leading-tight uppercase tracking-tighter">Female Only</p>
+                    <p className="text-sm text-ink/50 font-medium">Safe space for women</p>
                   </div>
                 </div>
                 <Switch checked={isFemaleOnly} onCheckedChange={setIsFemaleOnly} />
@@ -178,27 +171,31 @@ export const CustomerDashboard = () => {
               <Button
                 onClick={() => handleBook('full')}
                 disabled={loading}
-                className={`h-28 flex flex-col gap-2 rounded-2xl transition-all border-2 ${
-                  loading ? 'opacity-50' : 'hover:scale-[1.02]'
-                } bg-white border-gray-100 text-ink hover:border-palm/30 hover:bg-palm/5`}
+                className={`h-32 flex flex-col gap-3 rounded-[28px] transition-all border-2 ${
+                  loading ? 'opacity-50' : 'hover:scale-[1.02] hover:shadow-xl hover:shadow-ocean/10'
+                } bg-card border-gray-100 dark:border-white/5 text-ink hover:border-ocean/30 hover:bg-ocean/5`}
               >
-                <Car className="w-6 h-6 text-palm" />
+                <div className="bg-ocean/10 p-3 rounded-2xl">
+                  <Car className="w-6 h-6 text-ocean" />
+                </div>
                 <div className="text-center">
-                  <p className="font-bold">Full Car</p>
-                  <p className="text-[10px] opacity-60">Private ride • ₹1200</p>
+                  <p className="font-black text-lg leading-none mb-1">Full Car</p>
+                  <p className="text-[11px] font-bold text-ink/40 uppercase tracking-widest">Private • ₹1200</p>
                 </div>
               </Button>
               <Button
                 onClick={() => handleBook('shuttle')}
                 disabled={loading}
-                className={`h-28 flex flex-col gap-2 rounded-2xl transition-all border-2 ${
-                  loading ? 'opacity-50' : 'hover:scale-[1.02]'
-                } bg-white border-gray-100 text-ink hover:border-palm/30 hover:bg-palm/5`}
+                className={`h-32 flex flex-col gap-3 rounded-[28px] transition-all border-2 ${
+                  loading ? 'opacity-50' : 'hover:scale-[1.02] hover:shadow-xl hover:shadow-palm/10'
+                } bg-card border-gray-100 dark:border-white/5 text-ink hover:border-palm/30 hover:bg-palm/5`}
               >
-                <Users className="w-6 h-6 text-palm" />
+                <div className="bg-palm/10 p-3 rounded-2xl">
+                  <Users className="w-6 h-6 text-palm" />
+                </div>
                 <div className="text-center">
-                  <p className="font-bold">Shuttle</p>
-                  <p className="text-[10px] opacity-60">Share & meet • ₹300</p>
+                  <p className="font-black text-lg leading-none mb-1">Shuttle</p>
+                  <p className="text-[11px] font-bold text-ink/40 uppercase tracking-widest">Share • ₹300</p>
                 </div>
               </Button>
             </div>
@@ -207,7 +204,12 @@ export const CustomerDashboard = () => {
 
         {/* Safety & Status */}
         <div className="space-y-6">
-          <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] bg-white overflow-hidden">
+          <div className="space-y-2">
+            <Label className="text-[10px] uppercase tracking-[0.3em] text-palm font-black ml-1">Goa Environmental Sync</Label>
+            <EnvironmentalWidgets />
+          </div>
+
+          <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] bg-card overflow-hidden">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg flex items-center gap-2 text-palm font-heading">
                 <Shield className="w-5 h-5" />
@@ -240,13 +242,13 @@ export const CustomerDashboard = () => {
                   Set Emergency Contact
                 </Button>
               )}
-              <Button className="w-full h-12 bg-earth hover:bg-earth/90 text-white font-black text-[11px] tracking-widest uppercase rounded-xl">
+              <Button className="w-full h-12 bg-accent-gradient hover:bg-accent-gradient/90 text-white font-black text-[11px] tracking-widest uppercase rounded-xl border-none active:scale-95 transition-transform">
                 SOS EMERGENCY
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-lg bg-white">
+          <Card className="border-none shadow-lg bg-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Heart className="text-red-500 w-5 h-5" />
@@ -277,7 +279,7 @@ export const CustomerDashboard = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                 >
-                  <Card className="border-l-4 border-l-palm shadow-2xl shadow-palm/5 bg-white dark:bg-card rounded-2xl overflow-hidden">
+                  <Card className="border-l-4 border-l-palm shadow-2xl shadow-palm/5 bg-card rounded-2xl overflow-hidden">
                     <CardContent className="p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                       <div className="space-y-3 flex-1">
                         <div className="flex items-center gap-2">

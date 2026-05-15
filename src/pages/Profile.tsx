@@ -60,7 +60,7 @@ export const Profile = () => {
       </header>
 
       <div className="max-w-2xl mx-auto grid gap-6">
-        <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] bg-white overflow-hidden">
+        <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] bg-card overflow-hidden">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-palm font-heading">
               <User className="text-palm w-5 h-5" />
@@ -79,7 +79,7 @@ export const Profile = () => {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] bg-white overflow-hidden">
+        <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] bg-card overflow-hidden">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-earth font-heading">
               <Shield className="text-earth w-5 h-5" />

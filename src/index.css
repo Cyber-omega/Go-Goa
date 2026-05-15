@@ -1,18 +1,19 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 @theme inline {
-    --font-heading: "Georgia", serif;
-    --font-sans: "Inter", sans-serif;
+    --font-heading: "Playfair Display", serif;
+    --font-sans: "Plus Jakarta Sans", sans-serif;
     
-    --color-sand: #F5F2E9;
-    --color-palm: #386641;
-    --color-earth: #BC4749;
-    --color-sun: #F2CC8F;
-    --color-ocean: #81B29A;
-    --color-ink: #3D405B;
+    --color-sand: var(--sand);
+    --color-palm: var(--palm);
+    --color-earth: var(--earth);
+    --color-sun: var(--sun);
+    --color-ocean: var(--ocean);
+    --color-ink: var(--ink);
+    --color-sunset: var(--sunset);
 
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -44,48 +45,64 @@
 }
 
 :root {
-    --background: #F5F2E9;
-    --foreground: #3D405B;
+    --sand: #F6F3FF;
+    --palm: #6D28D9;
+    --earth: #7C3AED;
+    --sun: #C4B5FD;
+    --ocean: #6D28D9;
+    --ink: #1A1A1A;
+    --sunset: #5B21B6;
+
+    --background: #F6F3FF;
+    --foreground: #1A1A1A;
     --card: #FFFFFF;
-    --card-foreground: #3D405B;
-    --popover: #FFFFFF;
-    --popover-foreground: #3D405B;
-    --primary: #386641;
+    --card-foreground: #1A1A1A;
+    --popover: #F3F0FF;
+    --popover-foreground: #1A1A1A;
+    --primary: #6D28D9;
     --primary-foreground: #FFFFFF;
-    --secondary: #81B29A;
-    --secondary-foreground: #FFFFFF;
-    --muted: #F5F2E9;
-    --muted-foreground: #3D405B;
-    --accent: #F2CC8F;
-    --accent-foreground: #3D405B;
-    --destructive: #BC4749;
+    --secondary: #EDE9FE;
+    --secondary-foreground: #6D28D9;
+    --muted: #EDE9FE;
+    --muted-foreground: #6B7280;
+    --accent: #7C3AED;
+    --accent-foreground: #FFFFFF;
+    --destructive: #E63946;
     --destructive-foreground: #FFFFFF;
-    --border: rgba(0,0,0,0.05);
-    --input: rgba(0,0,0,0.05);
-    --ring: #386641;
-    --radius: 2rem;
+    --border: #E5E7EB;
+    --input: #E5E7EB;
+    --ring: #6D28D9;
+    --radius: 1.25rem;
 }
 
 .dark {
-    --background: #1A1C2C;
-    --foreground: #F5F2E9;
-    --card: #24273D;
-    --card-foreground: #F5F2E9;
-    --popover: #24273D;
-    --popover-foreground: #F5F2E9;
-    --primary: #81B29A;
-    --primary-foreground: #1A1C2C;
-    --secondary: #386641;
-    --secondary-foreground: #FFFFFF;
-    --muted: #24273D;
-    --muted-foreground: #81B29A;
-    --accent: #F2CC8F;
-    --accent-foreground: #1A1C2C;
-    --destructive: #E07A5F;
+    --sand: #0F0A1A;
+    --palm: #8B5CF6;
+    --earth: #A78BFA;
+    --sun: #3B0764;
+    --ocean: #8B5CF6;
+    --ink: #F5F3FF;
+    --sunset: #6D28D9;
+
+    --background: #0F0A1A;
+    --foreground: #F5F3FF;
+    --card: #1F1433;
+    --card-foreground: #F5F3FF;
+    --popover: #2A1B45;
+    --popover-foreground: #F5F3FF;
+    --primary: #8B5CF6;
+    --primary-foreground: #FFFFFF;
+    --secondary: #A78BFA;
+    --secondary-foreground: #0F0A1A;
+    --muted: #1A102A;
+    --muted-foreground: #B5B0D6;
+    --accent: #A78BFA;
+    --accent-foreground: #0F0A1A;
+    --destructive: #E63946;
     --destructive-foreground: #FFFFFF;
-    --border: rgba(255,255,255,0.1);
-    --input: rgba(255,255,255,0.1);
-    --ring: #81B29A;
+    --border: #2E2545;
+    --input: #2E2545;
+    --ring: #8B5CF6;
 }
 
 @layer base {
@@ -93,6 +110,7 @@
     @apply border-border outline-ring/50;
     }
   body {
+    background-image: url("https://www.transparenttextures.com/patterns/soft-wallpaper.png");
     @apply bg-background text-foreground;
     }
   html {
@@ -101,4 +119,54 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
   }
+}
+
+@utility glass-morphic {
+    @apply bg-card/30 backdrop-blur-3xl border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
+}
+
+@utility glass-teal {
+    @apply bg-palm/10 backdrop-blur-3xl border border-palm/20 shadow-[0_8px_32px_0_rgba(109,40,217,0.1)];
+}
+
+@utility premium-shadow {
+    box-shadow: 0 10px 40px -10px rgba(109,40,217,0.12),
+                0 4px 12px -4px rgba(0, 0, 0, 0.05);
+}
+
+@utility stacked-shadow {
+    box-shadow: 0 20px 50px -12px rgba(109,40,217,0.15),
+                0 10px 20px -10px rgba(0, 0, 0, 0.08);
+}
+
+@utility glow-terra {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3),
+                0 0 40px rgba(124, 58, 237, 0.15);
+}
+
+@utility glow-ocean {
+    box-shadow: 0 0 20px rgba(109, 40, 217, 0.3),
+                0 0 40px rgba(109, 40, 217, 0.15);
+}
+
+@utility bg-brand-gradient {
+    background: linear-gradient(135deg, #1E40AF 0%, #6D28D9 100%);
+}
+
+@utility bg-accent-gradient {
+    background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+}
+
+@utility text-brand-gradient {
+    background: linear-gradient(135deg, #1E40AF 0%, #6D28D9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@utility textured-bg {
+    background-image: url("https://www.transparenttextures.com/patterns/soft-wallpaper.png");
+}
+
+@utility editorial-heading {
+    @apply font-heading italic tracking-tight leading-[0.9];
 }

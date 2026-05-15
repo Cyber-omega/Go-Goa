@@ -6,9 +6,11 @@ import { Booking } from '../types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Car, MapPin, Users, CheckCircle, Star, Navigation, AlertCircle } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { Car, MapPin, Users, CheckCircle, Star, Navigation, AlertCircle, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
+import { EnvironmentalWidgets } from '../components/EnvironmentalWidgets';
 
 export const DriverDashboard = () => {
   const { profile, user } = useAuth();
@@ -104,92 +106,102 @@ export const DriverDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-sand pt-24 pb-12 px-4">
-      <header className="max-w-5xl mx-auto flex items-center justify-between mb-10">
+    <div className="min-h-screen bg-sand pt-24 pb-12 px-4 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-[40%] h-[40%] bg-palm/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[40%] h-[40%] bg-sunset/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <header className="max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4 relative z-10">
         <div className="space-y-1">
-          <span className="text-[11px] uppercase tracking-[0.2em] text-ocean font-bold">Driver Partner</span>
-          <h1 className="text-4xl font-black text-palm">Driver Console</h1>
-          <p className="text-ink/60 font-medium">Manage your rides and earn in Goa</p>
+          <span className="text-[10px] uppercase tracking-[0.3em] text-ocean font-black">Driver Partner</span>
+          <h1 className="text-5xl font-black text-ink tracking-tighter leading-none">Driver Console</h1>
+          <p className="text-ink/60 font-medium italic mt-2">Connecting Goa, one ride at a time.</p>
         </div>
-        <div className="flex items-center gap-2 bg-palm/10 px-4 py-2 rounded-full border border-palm/20">
-          <div className="w-2 h-2 bg-palm rounded-full animate-pulse" />
-          <span className="text-sm font-bold text-palm">Online • 4.9★</span>
+        <div className="flex items-center gap-3 bg-card/80 backdrop-blur-md px-6 py-3 rounded-2xl border border-palm/10 shadow-xl shadow-palm/5">
+          <div className="relative flex items-center justify-center">
+            <div className="w-3 h-3 bg-palm rounded-full animate-pulse" />
+            <div className="absolute w-5 h-5 border-2 border-palm/20 rounded-full animate-ping" />
+          </div>
+          <span className="text-base font-black text-ink uppercase tracking-wider">Online • 4.9 <Star className="inline w-3 h-3 fill-sun text-sun ml-1" /></span>
         </div>
       </header>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="max-w-5xl mx-auto grid lg:grid-cols-3 gap-8 relative z-10">
         {/* Available Rides */}
         <section className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-heading text-palm font-bold flex items-center gap-2">
-              <Navigation className="text-palm w-5 h-5" />
+            <h2 className="text-2xl font-black text-ink tracking-tight flex items-center gap-3">
+              <div className="bg-ocean/10 p-2 rounded-xl">
+                <Navigation className="text-ocean w-5 h-5" />
+              </div>
               Available Requests
             </h2>
-            <Badge className="bg-ocean/20 text-palm border-none">{pendingBookings.length} New</Badge>
+            <Badge className="bg-primary text-white font-black px-4 py-1 rounded-full">{pendingBookings.length} NEW</Badge>
           </div>
 
-          <div className="grid gap-4">
+          <div className="grid gap-6">
             <AnimatePresence>
               {pendingBookings.length === 0 ? (
-                <div className="text-center py-12 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                  <AlertCircle className="mx-auto text-gray-300 w-12 h-12 mb-3" />
-                  <p className="text-gray-400">No pending requests right now.</p>
+                <div className="text-center py-20 bg-card/50 backdrop-blur-xl rounded-[40px] border-4 border-dashed border-gray-100/50">
+                  <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <AlertCircle className="text-gray-300 w-8 h-8" />
+                  </div>
+                  <p className="text-gray-400 font-bold uppercase tracking-widest text-sm">Waiting for requests...</p>
                 </div>
               ) : (
                 pendingBookings.map((booking) => (
                   <motion.div
                     key={booking.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
                   >
-                    <Card className="overflow-hidden border-none shadow-2xl shadow-palm/5 rounded-[24px] bg-white hover:shadow-xl transition-shadow">
+                    <Card className="overflow-hidden border-none shadow-2xl shadow-ink/5 rounded-[32px] bg-card/90 backdrop-blur-xl hover:shadow-primary/10 transition-all border-l-[12px] border-l-ocean">
                       <CardContent className="p-0 flex flex-col md:flex-row">
-                        <div className="p-6 flex-1 space-y-4">
+                        <div className="p-8 flex-1 space-y-6">
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Badge className={booking.type === 'full' ? 'bg-ocean/20 text-palm' : 'bg-sun/20 text-ink'}>
+                            <div className="flex items-center gap-3">
+                              <Badge className={`px-4 py-1 rounded-full font-black ${booking.type === 'full' ? 'bg-ocean/10 text-ocean' : 'bg-sun/10 text-sun'}`}>
                                 {booking.type.toUpperCase()}
                               </Badge>
                               {booking.isFemaleOnly && (
-                                <Badge className="bg-earth/10 text-earth border-earth/20">FEMALE ONLY</Badge>
+                                <Badge className="bg-earth/10 text-earth border-none px-4 py-1 rounded-full font-black">FEMALE ONLY</Badge>
                               )}
                             </div>
-                            <span className="text-2xl font-black text-palm">₹{booking.price}</span>
+                            <span className="text-3xl font-black text-ink tracking-tighter">₹{booking.price}</span>
                           </div>
                           
-                          <div className="space-y-3">
-                            <div className="flex items-start gap-3">
-                              <div className="mt-1 w-2 h-2 rounded-full bg-green-500" />
+                          <div className="space-y-4">
+                            <div className="flex items-start gap-4">
+                              <div className="mt-1 w-3 h-3 rounded-full border-4 border-ocean flex-shrink-0" />
                               <div>
-                                <p className="text-xs text-gray-400 uppercase font-bold tracking-wider">Pickup</p>
-                                <p className="font-semibold">{booking.origin}</p>
+                                <p className="text-[10px] text-ink/30 uppercase font-black tracking-[0.2em]">Pickup Point</p>
+                                <p className="font-black text-lg text-ink leading-none mt-1">{booking.origin}</p>
                               </div>
                             </div>
-                            <div className="flex items-start gap-3">
-                              <div className="mt-1 w-2 h-2 rounded-full bg-red-500" />
+                            <div className="flex items-start gap-4">
+                              <div className="mt-1 w-3 h-3 rounded-full border-4 border-sun flex-shrink-0" />
                               <div>
-                                <p className="text-xs text-gray-400 uppercase font-bold tracking-wider">Drop</p>
-                                <p className="font-semibold">{booking.destination}</p>
+                                <p className="text-[10px] text-ink/30 uppercase font-black tracking-[0.2em]">Drop Location</p>
+                                <p className="font-black text-lg text-ink leading-none mt-1">{booking.destination}</p>
                               </div>
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-4 pt-2">
-                            <div className="flex items-center gap-1 text-sm text-gray-500">
-                              <Users className="w-4 h-4" />
-                              <span>{booking.occupiedSeats} Passenger</span>
+                          <div className="flex items-center gap-6 pt-4 border-t border-gray-50">
+                            <div className="flex items-center gap-2 text-sm font-bold text-ink/60">
+                              <Users className="w-4 h-4 text-ocean" />
+                              <span>{booking.occupiedSeats} Seat</span>
                             </div>
-                            <div className="flex items-center gap-1 text-sm text-gray-500">
-                              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                              <span>Customer: {booking.customerName}</span>
+                            <div className="flex items-center gap-2 text-sm font-bold text-ink/60">
+                              <User className="w-4 h-4 text-sun" />
+                              <span>{booking.customerName}</span>
                             </div>
                           </div>
                         </div>
                         <Button
                           onClick={() => handleAccept(booking.id)}
                           disabled={loading}
-                          className="md:w-32 h-auto rounded-none bg-palm hover:bg-palm/90 text-white font-black text-lg tracking-tighter"
+                          className="md:w-40 h-auto rounded-none bg-brand-gradient hover:opacity-90 text-white font-black text-xl tracking-tighter border-none active:scale-95 transition-transform"
                         >
                           ACCEPT
                         </Button>
@@ -258,6 +270,11 @@ export const DriverDashboard = () => {
                 </Card>
               ))
             )}
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-[10px] uppercase tracking-[0.3em] text-palm font-black ml-1">Environmental Sync</Label>
+            <EnvironmentalWidgets />
           </div>
 
           <Card className="bg-palm border-none shadow-2xl shadow-palm/10 rounded-[32px] overflow-hidden">

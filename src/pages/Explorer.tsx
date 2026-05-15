@@ -283,12 +283,17 @@ const LOCATIONS: Location[] = [
   }
 ];
 
+import { EnvironmentalWidgets } from '@/components/EnvironmentalWidgets';
+import { AIItineraryPlanner } from '@/components/AIItineraryPlanner';
+
 export const Explorer = () => {
   const [selectedLoc, setSelectedLoc] = useState<Location | null>(null);
   const [showVR, setShowVR] = useState(false);
   const [showAR, setShowAR] = useState(false);
   const [vrLoading, setVrLoading] = useState(false);
   const [filter, setFilter] = useState<'all' | 'fort' | 'church' | 'nightlife' | 'nature'>('all');
+  const [isSusegad, setIsSusegad] = useState(true);
+  const [activeTab, setActiveTab] = useState<'map' | 'itinerary'>('map');
   const panoramaRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -298,12 +303,13 @@ export const Explorer = () => {
     : LOCATIONS.filter(loc => loc.category === filter);
 
   const getMarkerColor = (category: string) => {
+    if (isSusegad) return "#E07A5F"; // New Peach Terra Cotta
     switch (category) {
-      case 'fort': return "#386641";
-      case 'church': return "#F2CC8F";
-      case 'nightlife': return "#E07A5F";
-      case 'nature': return "#81B29A";
-      default: return "#386641";
+      case 'fort': return "#1F6F78";
+      case 'church': return "#F4A261";
+      case 'nightlife': return "#2A9D8F";
+      case 'nature': return "#FF8A65";
+      default: return "#1F6F78";
     }
   };
 
@@ -416,216 +422,289 @@ export const Explorer = () => {
   };
 
   return (
-    <div className="bg-sand dark:bg-background pt-24 pb-24 px-4 overflow-x-hidden min-h-[calc(100vh-80px)] flex flex-col">
-      <header className="max-w-7xl mx-auto mb-12 text-center w-full">
-        <Badge className="bg-palm/10 text-palm border-none px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-4">
-          Interactive Goa Guide
-        </Badge>
-        <h1 className="text-5xl md:text-7xl font-black text-palm tracking-tighter leading-none mb-4">
-          EXPLORE <span className="text-ocean">GOA</span>
-        </h1>
-        <p className="text-ink/60 dark:text-foreground/60 max-w-2xl mx-auto font-medium text-lg">
-          Discover famous landmarks and hidden gems through our interactive AR/VR map. 
-          Experience Goa before you even get there.
-        </p>
+    <div className={`min-h-[calc(100vh-80px)] transition-colors duration-1000 textured-bg ${isSusegad ? 'bg-sand' : 'bg-background'} pt-32 pb-24 px-6 overflow-x-hidden flex flex-col`}>
+      <header className="max-w-7xl mx-auto mb-16 text-center w-full relative">
+        <div 
+          className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-card/40 backdrop-blur-3xl border border-palm/10 px-8 py-3 rounded-full stacked-shadow z-10 transition-all hover:scale-105 cursor-pointer group" 
+          onClick={() => setIsSusegad(!isSusegad)}
+        >
+          <span className={`text-[10px] font-black uppercase tracking-[0.2em] transition-colors ${!isSusegad ? 'text-palm' : 'text-slate-400'}`}>Efficiency</span>
+          <div className={`w-14 h-7 rounded-full p-1 transition-colors relative ${isSusegad ? 'bg-earth/20' : 'bg-palm/20'}`}>
+            <motion.div 
+              animate={{ x: isSusegad ? 28 : 0 }}
+              className={`w-5 h-5 rounded-full shadow-lg flex items-center justify-center ${isSusegad ? 'bg-accent-gradient' : 'bg-brand-gradient'}`}
+            >
+               {isSusegad ? <div className="w-1.5 h-1.5 bg-white rounded-full glow-terra" /> : <div className="w-1.5 h-1.5 bg-white rounded-full glow-ocean" />}
+            </motion.div>
+          </div>
+          <span className={`text-[10px] font-black uppercase tracking-[0.2em] transition-colors ${isSusegad ? 'text-earth' : 'text-slate-400'}`}>Susegad</span>
+        </div>
+
+        <motion.div
+           key={isSusegad ? 'susegad' : 'efficiency'}
+           initial={{ opacity: 0, y: 10 }}
+           animate={{ opacity: 1, y: 0 }}
+           className="space-y-4"
+        >
+          <Badge className="bg-transparent text-earth border border-earth/20 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.4em]">
+            {isSusegad ? 'Cultural Discovery Mode' : 'Rapid Transit Mapping'}
+          </Badge>
+          <h1 className="text-5xl md:text-8xl editorial-heading text-palm tracking-tight leading-none">
+            Exploring <span className={isSusegad ? 'italic text-earth' : 'text-ocean'}>Heritage</span>
+          </h1>
+          <p className="text-ink/60 max-w-2xl mx-auto font-sans font-light text-xl leading-relaxed">
+            {isSusegad 
+              ? "Discover the hidden rhythms of Goa. Slow down, breathe, and connect with centuries of Indo-Portuguese history."
+              : "Locate essential landmarks and high-traffic hubs with efficiency-first spatial data."
+            }
+          </p>
+        </motion.div>
       </header>
 
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
-        {/* Map Section */}
-        <Card className="lg:col-span-2 border-none shadow-2xl shadow-palm/5 rounded-[40px] bg-white dark:bg-card overflow-hidden h-[600px] relative">
-          <div className="absolute top-6 left-6 z-10 flex flex-wrap gap-2 max-w-[80%]">
-            <Button 
-              variant={filter === 'all' ? 'default' : 'outline'} 
-              size="sm" 
-              onClick={() => setFilter('all')}
-              className={`rounded-xl text-[10px] font-black uppercase tracking-widest h-8 ${filter === 'all' ? 'bg-palm' : 'bg-white/90 dark:bg-card/90'}`}
-            >
-              All
-            </Button>
-            <Button 
-              variant={filter === 'fort' ? 'default' : 'outline'} 
-              size="sm" 
-              onClick={() => setFilter('fort')}
-              className={`rounded-xl text-[10px] font-black uppercase tracking-widest h-8 ${filter === 'fort' ? 'bg-palm' : 'bg-white/90 dark:bg-card/90'}`}
-            >
-              Forts
-            </Button>
-            <Button 
-              variant={filter === 'church' ? 'default' : 'outline'} 
-              size="sm" 
-              onClick={() => setFilter('church')}
-              className={`rounded-xl text-[10px] font-black uppercase tracking-widest h-8 ${filter === 'church' ? 'bg-sun text-ink' : 'bg-white/90 dark:bg-card/90'}`}
-            >
-              Churches
-            </Button>
-            <Button 
-              variant={filter === 'nightlife' ? 'default' : 'outline'} 
-              size="sm" 
-              onClick={() => setFilter('nightlife')}
-              className={`rounded-xl text-[10px] font-black uppercase tracking-widest h-8 ${filter === 'nightlife' ? 'bg-earth' : 'bg-white/90 dark:bg-card/90'}`}
-            >
-              Nightlife
-            </Button>
-            <Button 
-              variant={filter === 'nature' ? 'default' : 'outline'} 
-              size="sm" 
-              onClick={() => setFilter('nature')}
-              className={`rounded-xl text-[10px] font-black uppercase tracking-widest h-8 ${filter === 'nature' ? 'bg-ocean' : 'bg-white/90 dark:bg-card/90'}`}
-            >
-              Nature
-            </Button>
-          </div>
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-4 gap-12 w-full">
+        {/* Sidebar Widgets - Environmental */}
+        <div className="lg:col-span-1 space-y-8">
+           <div className="space-y-2">
+             <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-palm/40 ml-1">Environmental Sync</h4>
+             <EnvironmentalWidgets />
+           </div>
 
-          <div className="w-full h-full bg-[#E0E7D8] dark:bg-palm/5">
-            <ComposableMap
-              projection="geoMercator"
-              projectionConfig={{
-                scale: 45000,
-                center: [74.0, 15.3]
-              }}
-              style={{ width: "100%", height: "100%" }}
-            >
-              <Geographies geography={GOA_GEOJSON}>
-                {({ geographies }) =>
-                  geographies.map((geo) => (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      fill="rgba(56, 102, 65, 0.1)"
-                      stroke="#386641"
-                      strokeWidth={0.5}
-                      style={{
-                        default: { outline: "none" },
-                        hover: { fill: "rgba(56, 102, 65, 0.2)", outline: "none" },
-                        pressed: { outline: "none" }
-                      }}
-                    />
-                  ))
-                }
-              </Geographies>
-
-              {filteredLocations.map((loc) => (
-                <Marker key={loc.id} coordinates={loc.coordinates}>
-                  <motion.g
-                    whileHover={{ scale: 1.5 }}
-                    onClick={() => setSelectedLoc(loc)}
-                    className="cursor-pointer"
-                  >
-                    <circle
-                      r={6}
-                      fill={getMarkerColor(loc.category)}
-                      stroke="#fff"
-                      strokeWidth={2}
-                    />
-                    <circle
-                      r={12}
-                      fill={getMarkerColor(loc.category)}
-                      className="animate-pulse opacity-20"
-                    />
-                  </motion.g>
-                </Marker>
-              ))}
-            </ComposableMap>
-          </div>
-        </Card>
-
-        {/* Info Panel */}
-        <div className="space-y-6">
-          <AnimatePresence mode="wait">
-            {selectedLoc ? (
-              <motion.div
-                key={selectedLoc.id}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-              >
-                <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] bg-white dark:bg-card overflow-hidden">
-                  <img 
-                    src={selectedLoc.thumbnail} 
-                    alt={selectedLoc.name}
-                    className="w-full h-48 object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                  <CardHeader>
-                    <div className="flex flex-wrap gap-2 items-start mb-2">
-                      <Badge className={selectedLoc.type === 'famous' ? 'bg-palm/10 text-palm' : 'bg-sun/20 text-ink'}>
-                        {selectedLoc.type.toUpperCase()}
-                      </Badge>
-                      <Badge variant="outline" className="border-palm/20 text-palm uppercase text-[10px]">
-                        {selectedLoc.category}
-                      </Badge>
-                      <div className="flex-1" />
-                      <Button variant="ghost" size="icon" onClick={() => setSelectedLoc(null)} className="rounded-full h-8 w-8">
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
-                    <CardTitle className="text-2xl font-black text-palm">{selectedLoc.name}</CardTitle>
-                    <CardDescription className="text-ink/60 dark:text-foreground/60 font-medium">
-                      {selectedLoc.description}
-                    </CardDescription>
-                    {selectedLoc.bestFor && (
-                      <div className="mt-3 p-3 bg-palm/5 dark:bg-palm/10 rounded-2xl border border-palm/10">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-palm mb-1">Best For</p>
-                        <p className="text-sm font-bold text-ink dark:text-foreground">{selectedLoc.bestFor}</p>
-                      </div>
-                    )}
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-3">
-                      <Button 
-                        onClick={() => setShowVR(true)}
-                        className="bg-palm hover:bg-palm/90 text-white font-black rounded-2xl h-12 gap-2"
-                      >
-                        <Eye className="w-4 h-4" />
-                        VR TOUR
-                      </Button>
-                      <Button 
-                        variant="outline"
-                        onClick={() => setShowAR(true)}
-                        className="border-2 border-palm/20 text-palm hover:bg-palm/5 font-black rounded-2xl h-12 gap-2"
-                      >
-                        <Box className="w-4 h-4" />
-                        AR VIEW
-                      </Button>
-                    </div>
-                    <Button 
-                      variant="ghost" 
-                      onClick={openDirections}
-                      className="w-full text-ocean font-bold gap-2 hover:bg-ocean/5"
-                    >
-                      <MapPin className="w-4 h-4" />
-                      Get Directions
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ) : (
-              <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] bg-white dark:bg-card p-12 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
-                <div className="bg-sand dark:bg-palm/10 p-6 rounded-full mb-6">
-                  <Compass className="w-12 h-12 text-palm animate-spin-slow" />
-                </div>
-                <h3 className="text-xl font-black text-palm mb-2">Select a Location</h3>
-                <p className="text-ink/60 dark:text-foreground/60 text-sm font-medium">
-                  Click on the map markers to explore Goa's most iconic and secret spots.
-                </p>
-              </Card>
-            )}
-          </AnimatePresence>
-
-          <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] bg-palm text-white p-8">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="bg-white/20 p-3 rounded-2xl">
-                <Star className="w-6 h-6 text-sun fill-sun" />
+           <Card className="border-none premium-shadow rounded-[40px] bg-palm text-white p-10 overflow-hidden relative group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-700" />
+            <div className="flex items-center gap-4 mb-6 relative z-10">
+              <div className="bg-white/10 p-3 rounded-2xl">
+                <Star className="w-6 h-6 text-sunset fill-sunset" />
               </div>
-              <div>
-                <h4 className="font-black text-lg">Travel Kit</h4>
-                <p className="text-xs text-white/70 font-bold uppercase tracking-widest">Essential Tips</p>
-              </div>
+              <h4 className="font-black text-lg uppercase tracking-tight italic">Concierge Tip</h4>
             </div>
-            <p className="text-sm font-medium leading-relaxed opacity-90">
-              "Don't forget your sunblock! Hidden gems like Netravali are best visited early in the morning. Use our Shuttle Social to find travel buddies!"
+            <p className="text-base font-sans font-light leading-relaxed text-white/80 italic relative z-10">
+              {isSusegad 
+                ? "The hidden lake at Netravali is best experienced during the high tide cycles. Use our environmental widget to plan your visit."
+                : "Heritage forts are high-visibility zones. We recommend booking a private eco-conveyance for groups over four."
+              }
             </p>
           </Card>
+        </div>
+
+        {/* Main Content Area */}
+        <div className="lg:col-span-3 space-y-12">
+          {/* Tab Switcher */}
+          <div className="flex items-center gap-6 border-b border-palm/10 pb-4">
+             <button 
+               onClick={() => setActiveTab('map')}
+               className={`text-sm font-black uppercase tracking-[0.2em] transition-all relative pb-4 ${activeTab === 'map' ? 'text-palm' : 'text-slate-400 hover:text-palm/60'}`}
+             >
+               Heritage Map
+               {activeTab === 'map' && <motion.div layoutId="tab-active" className="absolute bottom-0 left-0 right-0 h-1 bg-palm rounded-full" />}
+             </button>
+             <button 
+               onClick={() => setActiveTab('itinerary')}
+               className={`text-sm font-black uppercase tracking-[0.2em] transition-all relative pb-4 ${activeTab === 'itinerary' ? 'text-palm' : 'text-slate-400 hover:text-palm/60'}`}
+             >
+               AI Itinerary Planner
+               {activeTab === 'itinerary' && <motion.div layoutId="tab-active" className="absolute bottom-0 left-0 right-0 h-1 bg-palm rounded-full" />}
+             </button>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-12 w-full">
+            {/* Conditional Content */}
+            <div className="lg:col-span-2">
+              <AnimatePresence mode="wait">
+                {activeTab === 'map' ? (
+                  <motion.div
+                    key="map-tab"
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    className="h-full"
+                  >
+                    <Card className="border-none stacked-shadow rounded-[50px] bg-card overflow-hidden h-[650px] relative">
+                      <div className="absolute top-8 left-8 z-10 flex flex-wrap gap-3 max-w-[80%]">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => setFilter('all')}
+                          className={`rounded-2xl text-[10px] font-black uppercase tracking-widest px-6 h-10 transition-all ${filter === 'all' ? 'bg-palm text-white' : 'bg-card/90 backdrop-blur-md text-palm'}`}
+                        >
+                          All Pathways
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => setFilter('fort')}
+                          className={`rounded-2xl text-[10px] font-black uppercase tracking-widest px-6 h-10 transition-all ${filter === 'fort' ? 'bg-palm text-white' : 'bg-card/90 backdrop-blur-md text-palm'}`}
+                        >
+                          Bastions
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => setFilter('church')}
+                          className={`rounded-2xl text-[10px] font-black uppercase tracking-widest px-6 h-10 transition-all ${filter === 'church' ? 'bg-earth text-white' : 'bg-card/90 backdrop-blur-md text-earth'}`}
+                        >
+                          Altars
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => setFilter('nature')}
+                          className={`rounded-2xl text-[10px] font-black uppercase tracking-widest px-6 h-10 transition-all ${filter === 'nature' ? 'bg-ocean text-white' : 'bg-card/90 backdrop-blur-md text-ocean'}`}
+                        >
+                          Wilderness
+                        </Button>
+                      </div>
+
+                      <div className={`w-full h-full transition-colors duration-1000 ${isSusegad ? 'bg-sand' : 'bg-background'}`}>
+                        <ComposableMap
+                          projection="geoMercator"
+                          projectionConfig={{
+                            scale: 45000,
+                            center: [74.0, 15.3]
+                          }}
+                          style={{ width: "100%", height: "100%" }}
+                        >
+                          <Geographies geography={GOA_GEOJSON}>
+                            {({ geographies }) =>
+                              geographies.map((geo) => (
+                                <Geography
+                                  key={geo.rsmKey}
+                                  geography={geo}
+                                  fill={isSusegad ? "rgba(231, 111, 81, 0.03)" : "rgba(10, 95, 110, 0.05)"}
+                                  stroke={isSusegad ? "#E76F51" : "#0A5F6E"}
+                                  strokeWidth={0.3}
+                                  style={{
+                                    default: { outline: "none" },
+                                    hover: { fill: isSusegad ? "rgba(231, 111, 81, 0.08)" : "rgba(10, 95, 110, 0.1)", outline: "none" },
+                                    pressed: { outline: "none" }
+                                  }}
+                                />
+                              ))
+                            }
+                          </Geographies>
+
+                          {filteredLocations.map((loc) => (
+                            <Marker key={loc.id} coordinates={loc.coordinates}>
+                              <motion.g
+                                whileHover={{ scale: 1.4 }}
+                                onClick={() => setSelectedLoc(loc)}
+                                className="cursor-pointer"
+                              >
+                                <circle
+                                  r={7}
+                                  fill={getMarkerColor(loc.category)}
+                                  stroke="#fff"
+                                  strokeWidth={3}
+                                  className="transition-colors duration-500 shadow-xl"
+                                />
+                                {isSusegad && (
+                                  <circle
+                                    r={15}
+                                    fill={getMarkerColor(loc.category)}
+                                    className="animate-pulse opacity-10"
+                                  />
+                                )}
+                              </motion.g>
+                            </Marker>
+                          ))}
+                        </ComposableMap>
+                      </div>
+                    </Card>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="itinerary-tab"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="h-full"
+                  >
+                    <AIItineraryPlanner />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Side Info Panel */}
+            <div className="lg:col-span-1">
+              <AnimatePresence mode="wait">
+                {selectedLoc ? (
+                  <motion.div
+                    key={selectedLoc.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                  >
+                    <Card className="border-none premium-shadow rounded-[40px] bg-card overflow-hidden group">
+                      <div className="relative h-64 overflow-hidden">
+                        <img 
+                          src={selectedLoc.thumbnail} 
+                          alt={selectedLoc.name}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                        <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white">
+                          <Badge className="bg-white/20 backdrop-blur-md text-white border-white/20 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                            {selectedLoc.type}
+                          </Badge>
+                          <span className="text-[10px] font-black uppercase tracking-[0.2em]">{selectedLoc.category}</span>
+                        </div>
+                      </div>
+                      <CardHeader className="pt-8 px-8 pb-4">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="w-12 h-[1px] bg-palm/20" />
+                          <Button variant="ghost" size="icon" onClick={() => setSelectedLoc(null)} className="rounded-full h-10 w-10 bg-slate-50 dark:bg-white/5">
+                            <X className="w-5 h-5 text-palm" />
+                          </Button>
+                        </div>
+                        <CardTitle className="text-4xl editorial-heading text-palm leading-tight italic">{selectedLoc.name}</CardTitle>
+                        <p className="text-ink/60 font-sans font-light leading-relaxed text-base pt-4">
+                          {selectedLoc.description}
+                        </p>
+                      </CardHeader>
+                      <CardContent className="px-8 pb-10 space-y-6">
+                        <div className="flex flex-col gap-3">
+                          <Button 
+                            onClick={() => setShowVR(true)}
+                            className="bg-brand-gradient text-white font-black rounded-2xl h-14 gap-3 uppercase tracking-widest text-[10px] border-none shadow-ocean/20 shadow-lg transition-transform active:scale-95"
+                          >
+                            <Eye className="w-5 h-5" />
+                            Immersive VR Tour
+                          </Button>
+                          <Button 
+                            variant="outline"
+                            onClick={() => setShowAR(true)}
+                            className="border-2 border-palm/20 text-palm hover:bg-palm/5 font-black rounded-2xl h-14 gap-3 uppercase tracking-widest text-[10px]"
+                          >
+                            <Box className="w-5 h-5" />
+                            AR Heritage View
+                          </Button>
+                        </div>
+                        <button 
+                          onClick={openDirections}
+                          className="w-full flex items-center justify-center gap-3 text-earth font-black uppercase tracking-widest text-[10px] h-12 border-t border-slate-50 dark:border-white/5 hover:bg-earth/5 rounded-2xl transition-all"
+                        >
+                          <MapPin className="w-4 h-4" />
+                          Get Heritage Path
+                        </button>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ) : (
+                  <Card className="border-none premium-shadow rounded-[40px] bg-card p-12 text-center flex flex-col items-center justify-center h-full min-h-[500px]">
+                    <div className="bg-sand p-8 rounded-[40px] mb-8 relative">
+                      <Compass className="w-16 h-16 text-palm/40 animate-spin-slow" />
+                      <div className="absolute inset-0 bg-palm/5 rounded-[40px] animate-pulse" />
+                    </div>
+                    <h3 className="text-2xl font-black text-palm mb-4 leading-none">Awaiting Selection</h3>
+                    <p className="text-ink/60 font-sans font-light leading-relaxed">
+                      Select a coordinate on the Goa heritage map to begin your regenerative discovery journey.
+                    </p>
+                  </Card>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </div>
 

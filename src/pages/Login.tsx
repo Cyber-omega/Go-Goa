@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Car, User as UserIcon, Shield } from 'lucide-react';
+import { Car, User as UserIcon, Shield, Palmtree } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export const Login = () => {
@@ -37,6 +37,12 @@ export const Login = () => {
           rating: 5,
           ratingCount: 0
         });
+      } else {
+        // Update role if explicitly selected on login page and different
+        const userData = userSnap.data();
+        if (userData && userData.role !== role) {
+          await updateDoc(userRef, { role: role });
+        }
       }
       navigate('/dashboard');
     } catch (error) {
@@ -47,26 +53,32 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-sand p-4">
+    <div className="min-h-screen flex items-center justify-center bg-sand p-4 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full opacity-[0.08] pointer-events-none">
+        <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-palm rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-earth rounded-full blur-[120px]" />
+      </div>
+      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+        className="w-full max-w-md relative z-10"
       >
-        <Card className="border-none shadow-2xl shadow-palm/5 rounded-[32px] overflow-hidden bg-white">
-          <CardHeader className="text-center space-y-4">
-            <div className="mx-auto w-24 h-24 flex items-center justify-center">
-              <img src="/logo.svg" alt="GO Goa Logo" className="w-full h-full object-contain" />
+        <Card className="border-none shadow-2xl shadow-ink/5 rounded-[40px] overflow-hidden bg-card/80 backdrop-blur-xl">
+          <CardHeader className="text-center space-y-4 pt-12">
+            <div className="mx-auto w-28 h-28 p-2 bg-card rounded-[32px] shadow-xl shadow-black/5 flex items-center justify-center mb-2 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-brand-gradient opacity-10 animate-pulse" />
+              <Palmtree className="w-16 h-16 text-palm relative z-10 transform group-hover:rotate-12 transition-transform" />
             </div>
             <div>
-              <CardTitle className="text-4xl font-black text-palm tracking-tighter uppercase">GO GOA</CardTitle>
-              <CardDescription className="text-ink/60 font-medium mt-2">Smart Travel for the Susegad Soul</CardDescription>
+              <CardTitle className="text-5xl font-black text-ink tracking-tighter uppercase leading-none">GO GOA</CardTitle>
+              <CardDescription className="text-ink/60 font-semibold mt-3 text-base">Travel the Susegad Way</CardDescription>
             </div>
           </CardHeader>
-          <CardContent className="space-y-8">
+          <CardContent className="space-y-8 pb-12">
             <div className="space-y-4">
-              <Label className="text-[11px] uppercase tracking-widest text-ocean font-black">I am a...</Label>
+              <Label className="text-[10px] uppercase tracking-[0.2em] text-ocean font-black">Identify as</Label>
               <RadioGroup
                 defaultValue="customer"
                 onValueChange={(v) => setRole(v as 'customer' | 'driver')}
@@ -76,9 +88,11 @@ export const Login = () => {
                   <RadioGroupItem value="customer" id="customer" className="peer sr-only" />
                   <Label
                     htmlFor="customer"
-                    className="flex flex-col items-center justify-between rounded-2xl border-2 border-gray-100 bg-white p-4 hover:bg-palm/5 hover:border-palm/30 peer-data-[state=checked]:border-palm peer-data-[state=checked]:bg-palm/5 cursor-pointer transition-all"
+                    className="flex flex-col items-center justify-between rounded-3xl border-2 border-gray-100 dark:border-white/5 bg-card p-6 hover:bg-ocean/5 hover:border-ocean/30 peer-data-[state=checked]:border-ocean peer-data-[state=checked]:bg-ocean/5 cursor-pointer transition-all"
                   >
-                    <UserIcon className="mb-3 h-6 w-6 text-palm" />
+                    <div className="bg-ocean/10 p-3 rounded-2xl mb-3">
+                      <UserIcon className="h-6 w-6 text-ocean" />
+                    </div>
                     <span className="font-bold text-ink">Customer</span>
                   </Label>
                 </div>
@@ -86,9 +100,11 @@ export const Login = () => {
                   <RadioGroupItem value="driver" id="driver" className="peer sr-only" />
                   <Label
                     htmlFor="driver"
-                    className="flex flex-col items-center justify-between rounded-2xl border-2 border-gray-100 bg-white p-4 hover:bg-palm/5 hover:border-palm/30 peer-data-[state=checked]:border-palm peer-data-[state=checked]:bg-palm/5 cursor-pointer transition-all"
+                    className="flex flex-col items-center justify-between rounded-3xl border-2 border-gray-100 dark:border-white/5 bg-card p-6 hover:bg-sun/5 hover:border-sun/30 peer-data-[state=checked]:border-sun peer-data-[state=checked]:bg-sun/5 cursor-pointer transition-all"
                   >
-                    <Car className="mb-3 h-6 w-6 text-palm" />
+                    <div className="bg-sun/10 p-3 rounded-2xl mb-3">
+                      <Car className="h-6 w-6 text-sun" />
+                    </div>
                     <span className="font-bold text-ink">Driver</span>
                   </Label>
                 </div>
@@ -96,12 +112,12 @@ export const Login = () => {
             </div>
 
             <Button
-              className="w-full h-14 text-lg bg-palm hover:bg-palm/90 text-white font-black rounded-2xl shadow-xl shadow-palm/10 flex items-center justify-center gap-3"
+              className="w-full h-16 text-lg bg-brand-gradient text-white font-black rounded-2xl shadow-xl shadow-primary/20 flex items-center justify-center gap-3 active:scale-95 transition-transform border-none"
               onClick={handleGoogleLogin}
               disabled={loading}
             >
               <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5 brightness-0 invert" referrerPolicy="no-referrer" />
-              {loading ? 'Signing in...' : 'Continue with Google'}
+              {loading ? 'Entering Goa...' : 'Continue with Google'}
             </Button>
 
             <p className="text-center text-xs text-gray-400">

@@ -27,7 +27,7 @@ export default function App() {
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <AuthProvider>
         <Router>
-          <div className="min-h-screen bg-sand dark:bg-background font-sans selection:bg-palm/10 selection:text-palm flex flex-col">
+          <div className="min-h-screen bg-sand font-sans selection:bg-palm/10 selection:text-palm flex flex-col">
             <Navbar />
             <main className="flex-1">
               <Routes>
